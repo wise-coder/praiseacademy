@@ -1,3 +1,4 @@
+const desktopNavBreakpoint = 1100;
 const header = document.querySelector(".site-header");
 const menuToggle = document.getElementById("menu-toggle");
 const mobileMenu = document.getElementById("mobile-menu");
@@ -551,12 +552,22 @@ function getChatbotIconMarkup() {
     `;
 }
 
+function getChatbotToggleMarkup(isOpen) {
+    if (isOpen) {
+        return `<span class="school-chatbot-close-icon" aria-hidden="true">&times;</span>`;
+    }
+
+    return `<span class="school-chatbot-icon">${getChatbotIconMarkup()}</span>`;
+}
+
 function setupSchoolChatbot() {
     const chatbotRoot = document.createElement("div");
     chatbotRoot.className = "school-chatbot";
     chatbotRoot.innerHTML = `
         <button class="school-chatbot-toggle" type="button" aria-expanded="false" aria-controls="school-chatbot-panel" aria-label="Open school chatbot">
-            <span class="school-chatbot-icon">${getChatbotIconMarkup()}</span>
+            <span class="school-chatbot-toggle-visual">
+                ${getChatbotToggleMarkup(false)}
+            </span>
         </button>
 
         <section class="school-chatbot-panel" id="school-chatbot-panel" hidden aria-label="Praise Academy chatbot">
@@ -587,11 +598,22 @@ function setupSchoolChatbot() {
     document.body.append(chatbotRoot);
 
     const chatbotToggle = chatbotRoot.querySelector(".school-chatbot-toggle");
+    const chatbotToggleVisual = chatbotRoot.querySelector(".school-chatbot-toggle-visual");
     const chatbotPanel = chatbotRoot.querySelector(".school-chatbot-panel");
     const chatbotClose = chatbotRoot.querySelector(".school-chatbot-close");
     const chatbotMessages = chatbotRoot.querySelector(".school-chatbot-messages");
     const chatbotForm = chatbotRoot.querySelector(".school-chatbot-form");
     const chatbotInput = chatbotRoot.querySelector(".school-chatbot-input");
+
+    function syncChatbotToggle(isOpen) {
+        chatbotRoot.classList.toggle("is-open", isOpen);
+        chatbotPanel.hidden = !isOpen;
+        chatbotPanel.style.display = isOpen ? "flex" : "none";
+        chatbotPanel.setAttribute("aria-hidden", String(!isOpen));
+        chatbotToggle.setAttribute("aria-expanded", String(isOpen));
+        chatbotToggle.setAttribute("aria-label", isOpen ? "Close school chatbot" : "Open school chatbot");
+        chatbotToggleVisual.innerHTML = getChatbotToggleMarkup(isOpen);
+    }
 
     function scrollChatToBottom() {
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
@@ -640,19 +662,18 @@ function setupSchoolChatbot() {
     }
 
     function openChatbot() {
-        chatbotPanel.hidden = false;
-        chatbotRoot.classList.add("is-open");
-        chatbotToggle.setAttribute("aria-expanded", "true");
+        syncChatbotToggle(true);
         chatbotInput.focus();
     }
 
     function closeChatbot() {
-        chatbotPanel.hidden = true;
-        chatbotRoot.classList.remove("is-open");
-        chatbotToggle.setAttribute("aria-expanded", "false");
+        syncChatbotToggle(false);
     }
 
-    chatbotToggle.addEventListener("click", () => {
+    chatbotToggle.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
         if (chatbotRoot.classList.contains("is-open")) {
             closeChatbot();
             return;
@@ -661,7 +682,11 @@ function setupSchoolChatbot() {
         openChatbot();
     });
 
-    chatbotClose.addEventListener("click", closeChatbot);
+    chatbotClose.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        closeChatbot();
+    });
 
     chatbotForm.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -682,6 +707,8 @@ function setupSchoolChatbot() {
             closeChatbot();
         }
     });
+
+    syncChatbotToggle(false);
 
     addChatMessage(
         "bot",
@@ -721,7 +748,7 @@ mobileDropdownToggles.forEach((toggle) => {
 });
 
 window.addEventListener("resize", () => {
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > desktopNavBreakpoint) {
         closeMobileMenu();
     }
 });

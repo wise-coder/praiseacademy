@@ -27,6 +27,7 @@ body {
     font-family: "Open Sans", sans-serif;
     color: var(--text-dark);
     background: var(--background);
+    overflow-x: hidden;
 }
 
 body.no-scroll {
@@ -52,6 +53,10 @@ button {
     margin: 0 auto;
 }
 
+.site-header .container {
+    width: min(1320px, calc(100% - 1rem));
+}
+
 .site-header {
     position: fixed;
     top: 0;
@@ -71,8 +76,8 @@ button {
 .header-inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    justify-content: flex-start;
+    gap: clamp(0.6rem, 1.2vw, 1rem);
     min-height: 78px;
 }
 
@@ -80,17 +85,19 @@ button {
     display: inline-flex;
     align-items: center;
     gap: 0.85rem;
+    flex-shrink: 0;
 }
 
 .brand img {
-    width: 54px;
-    height: 54px;
+    width: 62px;
+    height: 62px;
     object-fit: contain;
 }
 
 .brand-text {
     display: grid;
     gap: 0.15rem;
+    line-height: 1;
 }
 
 .brand-text strong {
@@ -100,27 +107,34 @@ button {
     color: var(--brand);
     text-transform: uppercase;
     letter-spacing: 0.06em;
+    line-height: 0.94;
 }
 
 .brand-text small {
     color: var(--muted);
     font-size: 0.82rem;
+    line-height: 1.05;
 }
 
 .site-nav {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    justify-content: flex-end;
+    flex: 1 1 auto;
+    margin-left: auto;
+    min-width: 0;
+    gap: clamp(0.7rem, 1.15vw, 1.35rem);
 }
 
 .site-nav a,
 .dropdown-toggle {
     position: relative;
-    font-size: 0.92rem;
+    font-size: clamp(0.76rem, 0.33vw + 0.72rem, 0.92rem);
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     color: #373737;
+    white-space: nowrap;
 }
 
 .dropdown-toggle {
@@ -181,6 +195,7 @@ button {
     visibility: hidden;
     transform: translateX(-50%) translateY(8px);
     transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index: 20;
 }
 
 .dropdown-menu a {
@@ -215,6 +230,7 @@ button {
     color: var(--brand);
     font-size: 1.6rem;
     padding: 0.35rem;
+    margin-left: auto;
     cursor: pointer;
 }
 
@@ -2778,7 +2794,23 @@ textarea:focus {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
+    .brand img {
+        width: 56px;
+        height: 56px;
+    }
+
+    .brand-text strong {
+        font-size: 0.92rem;
+    }
+
+    .brand-text small {
+        font-size: 0.76rem;
+    }
+
+}
+
+@media (max-width: 1100px) {
     .site-nav {
         display: none;
     }
@@ -2789,15 +2821,22 @@ textarea:focus {
         justify-content: center;
     }
 
+    .header-inner {
+        min-height: 74px;
+    }
+
     .mobile-menu {
         position: absolute;
         top: 100%;
         left: 0;
         width: 100%;
-        padding: 0.5rem 1rem 1rem;
-        background: rgba(255, 255, 255, 0.97);
+        max-height: calc(100vh - 74px);
+        overflow-y: auto;
+        padding: 0.55rem 1rem 1rem;
+        background: rgba(255, 255, 255, 0.98);
         border-top: 1px solid rgba(28, 28, 28, 0.08);
         box-shadow: 0 18px 35px rgba(16, 16, 16, 0.08);
+        backdrop-filter: blur(12px);
     }
 
     .mobile-menu.is-open {
@@ -2819,7 +2858,9 @@ textarea:focus {
         font-weight: 600;
         color: #595959;
     }
+}
 
+@media (max-width: 768px) {
     .brand-text small {
         display: none;
     }
@@ -2927,18 +2968,28 @@ textarea:focus {
     }
 }
 
+@media (max-width: 900px) {
+    .vision-banner-frame {
+        background-attachment: scroll;
+    }
+}
+
 @media (max-width: 560px) {
     .container {
         width: min(100% - 1.25rem, 1120px);
     }
 
+    .site-header .container {
+        width: min(100% - 0.65rem, 1320px);
+    }
+
     .brand img {
-        width: 48px;
-        height: 48px;
+        width: 52px;
+        height: 52px;
     }
 
     .brand-text strong {
-        font-size: 0.88rem;
+        font-size: 0.84rem;
     }
 
     .hero-copy h1 {
@@ -3196,6 +3247,8 @@ textarea:focus {
 }
 
 .school-chatbot-toggle {
+    position: relative;
+    z-index: 2;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -3210,6 +3263,12 @@ textarea:focus {
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+.school-chatbot-toggle-visual {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .school-chatbot-toggle:hover,
 .school-chatbot-toggle:focus-visible {
     transform: translateY(-4px) scale(1.02);
@@ -3219,6 +3278,21 @@ textarea:focus {
 .school-chatbot-icon,
 .school-chatbot-mini-icon {
     display: inline-flex;
+}
+
+.school-chatbot-close-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.8rem;
+    height: 4.8rem;
+    border: 2px solid rgba(255, 255, 255, 0.92);
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 30%, #b83c38 0%, #982220 58%, #6f1817 100%);
+    color: #ffffff;
+    font-size: 2.4rem;
+    line-height: 1;
+    box-shadow: 0 18px 42px rgba(111, 24, 23, 0.34);
 }
 
 .school-chatbot-icon svg {
@@ -3233,6 +3307,7 @@ textarea:focus {
 
 .school-chatbot-panel {
     position: absolute;
+    z-index: 1;
     right: 0;
     bottom: 5.8rem;
     width: min(24rem, calc(100vw - 2rem));
@@ -3386,6 +3461,10 @@ textarea:focus {
 .school-chatbot-input:focus {
     outline: 2px solid rgba(152, 34, 32, 0.16);
     border-color: #982220;
+}
+
+.school-chatbot.is-open .school-chatbot-toggle {
+    box-shadow: none;
 }
 
 .school-chatbot-send {
