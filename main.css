@@ -3239,6 +3239,545 @@ textarea:focus {
     }
 }
 
+@media (max-width: 1536px) {
+    .site-header .container {
+        width: min(1280px, calc(100% - 1rem));
+    }
+
+    .hero-copy,
+    .alumni-content {
+        max-width: 46rem;
+    }
+
+    .vision-banner-frame,
+    .vision-banner-content {
+        min-height: 40rem;
+    }
+
+    .gallery-mosaic {
+        grid-auto-rows: 4.25rem;
+    }
+}
+
+@media (max-width: 1400px) {
+    .culture-layout {
+        grid-template-columns: minmax(180px, 0.82fr) minmax(0, 1.6fr) minmax(180px, 0.82fr);
+    }
+
+    .footer-grid {
+        gap: 1.5rem;
+    }
+
+    .alumni-card-slider-wrap {
+        max-width: 64rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .hero-inner,
+    .story-grid,
+    .school-profile-grid {
+        gap: 2rem;
+    }
+
+    .facilities-grid,
+    .choose-grid,
+    .staff-admin-grid,
+    .donate-grid,
+    .ple-results-grid {
+        gap: 1.2rem;
+    }
+
+    .gallery-mosaic {
+        gap: 1rem;
+    }
+
+    .gallery-card-caption {
+        padding: 1.1rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .hero-inner,
+    .story-grid,
+    .facilities-intro,
+    .school-profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-highlights {
+        max-width: 40rem;
+    }
+
+    .story-media {
+        min-height: auto;
+        padding-bottom: 5rem;
+    }
+
+    .story-card {
+        right: 1rem;
+        bottom: 0;
+    }
+
+    .culture-layout {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .culture-card-values,
+    .culture-card-taboos {
+        margin: 0;
+    }
+
+    .culture-image-wrap {
+        order: -1;
+        min-height: 26rem;
+    }
+
+    .culture-image-wrap img {
+        height: 26rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .gallery-mosaic {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        grid-auto-rows: 4rem;
+    }
+
+    .gallery-card-large,
+    .gallery-card-wide {
+        grid-column: span 8;
+    }
+
+    .gallery-card-tall,
+    .gallery-card-square {
+        grid-column: span 4;
+    }
+
+    .alumni-card-slider {
+        min-height: 32rem;
+    }
+
+    .alumni-card-slide {
+        grid-template-columns: 13rem 1fr;
+    }
+}
+
+@media (max-width: 912px) {
+    .container {
+        width: min(100% - 1.5rem, 1120px);
+    }
+
+    .facilities-grid,
+    .choose-grid,
+    .staff-admin-grid,
+    .donate-grid,
+    .ple-results-grid,
+    .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .alumni-slider,
+    .alumni-content {
+        min-height: 88vh;
+    }
+
+    .alumni-content {
+        max-width: 40rem;
+        padding: 7rem 0 5rem;
+    }
+
+    .contact-hero-content,
+    .gallery-hero-content,
+    .academic-hero-content,
+    .primary-hero-content,
+    .nursery-hero-content,
+    .cocurricular-hero-content,
+    .ple-hero-content,
+    .staff-hero-content {
+        max-width: 40rem;
+    }
+}
+
+@media (max-width: 820px) {
+    .site-header .container {
+        width: min(100% - 0.9rem, 1320px);
+    }
+
+    .brand img {
+        width: 54px;
+        height: 54px;
+    }
+
+    .hero-copy h1 {
+        font-size: clamp(2.6rem, 8vw, 4.4rem);
+    }
+
+    .story-image-frame img {
+        height: 26rem;
+    }
+
+    .vision-banner-frame,
+    .vision-banner-content {
+        min-height: 32rem;
+    }
+
+    .vision-banner-text {
+        font-size: 1.05rem;
+        line-height: 1.75;
+    }
+
+    .gallery-mosaic {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-auto-rows: 4rem;
+    }
+
+    .gallery-card-large,
+    .gallery-card-wide {
+        grid-column: span 6;
+    }
+
+    .gallery-card-tall,
+    .gallery-card-square {
+        grid-column: span 3;
+    }
+
+    .alumni-dots {
+        width: calc(100% - 2rem);
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 680px) {
+    .container {
+        width: min(100% - 1rem, 1120px);
+    }
+
+    .hero {
+        padding-top: 7.25rem;
+        padding-bottom: 3rem;
+    }
+
+    .hero-description,
+    .hero-quote,
+    .story-content p,
+    .facilities-copy p {
+        font-size: 0.96rem;
+        line-height: 1.7;
+    }
+
+    .button-primary {
+        min-height: 48px;
+        padding: 0.8rem 1.25rem;
+    }
+
+    .facility-card img,
+    .choose-card img {
+        height: 14rem;
+    }
+
+    .gallery-card-caption {
+        padding: 0.95rem;
+    }
+
+    .gallery-card-caption h3 {
+        font-size: 1.05rem;
+    }
+
+    .gallery-card-caption p {
+        font-size: 0.86rem;
+        line-height: 1.55;
+    }
+
+    .school-chatbot-toggle,
+    .school-chatbot-close-icon,
+    .school-chatbot-icon svg {
+        width: 4.4rem;
+        height: 4.4rem;
+    }
+
+    .school-chatbot-panel {
+        width: min(21rem, calc(100vw - 0.75rem));
+    }
+}
+
+@media (max-width: 600px) {
+    .facilities-grid,
+    .choose-grid,
+    .staff-admin-grid,
+    .donate-grid,
+    .ple-results-grid,
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .story-card {
+        margin: -1rem 0.75rem 0;
+    }
+
+    .map {
+        min-height: 280px;
+    }
+}
+
+@media (max-width: 540px) {
+    .brand img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .brand-text strong {
+        font-size: 0.8rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+    }
+
+    .hero-highlights {
+        gap: 0.85rem;
+    }
+
+    .vision-banner-play {
+        width: 4.75rem;
+        height: 4.75rem;
+    }
+
+    .culture-image-wrap {
+        min-height: 20rem;
+    }
+
+    .culture-image-wrap img {
+        height: 20rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: min(100% - 0.85rem, 1120px);
+    }
+
+    .site-header .container {
+        width: min(100% - 0.5rem, 1320px);
+    }
+
+    .header-inner {
+        min-height: 70px;
+    }
+
+    .brand {
+        gap: 0.55rem;
+    }
+
+    .brand-text small {
+        display: none;
+    }
+
+    .menu-toggle {
+        font-size: 1.45rem;
+    }
+
+    .hero-copy h1 {
+        font-size: clamp(2.15rem, 12vw, 3.2rem);
+    }
+
+    .eyebrow {
+        font-size: 0.74rem;
+        letter-spacing: 0.12em;
+    }
+
+    .hero-tagline {
+        font-size: 1rem;
+    }
+
+    .alumni-card-slider {
+        min-height: 35rem;
+    }
+
+    .alumni-quote {
+        font-size: 1rem;
+    }
+
+    .school-chatbot {
+        right: 0.75rem;
+        bottom: 0.75rem;
+    }
+
+    .school-chatbot-panel {
+        width: min(20rem, calc(100vw - 0.5rem));
+        height: min(32rem, calc(100vh - 5.75rem));
+    }
+}
+
+@media (max-width: 430px) {
+    .highlight-card {
+        padding: 1rem;
+    }
+
+    .highlight-card i {
+        width: 2.7rem;
+        height: 2.7rem;
+    }
+
+    .story-card {
+        margin: -1rem 0.5rem 0;
+        padding: 1.25rem;
+    }
+
+    .identity-card,
+    .school-profile-copy,
+    .school-profile-panel,
+    .donate-cta,
+    .contact-form {
+        padding: 1.25rem;
+    }
+
+    .alumni-dots {
+        gap: 0.45rem;
+        bottom: 1rem;
+    }
+
+    .alumni-dot {
+        width: 0.7rem;
+        height: 0.7rem;
+    }
+
+    .gallery-card-large,
+    .gallery-card-tall,
+    .gallery-card-wide,
+    .gallery-card-square {
+        min-height: 16rem;
+    }
+
+    .map {
+        min-height: 260px;
+    }
+}
+
+@media (max-width: 390px) {
+    .container {
+        width: min(100% - 0.7rem, 1120px);
+    }
+
+    .brand img {
+        width: 46px;
+        height: 46px;
+    }
+
+    .brand-text strong {
+        font-size: 0.76rem;
+    }
+
+    .mobile-menu {
+        padding: 0.45rem 0.75rem 0.9rem;
+    }
+
+    .hero-copy h1 {
+        font-size: clamp(2rem, 13vw, 2.8rem);
+    }
+
+    .hero-description,
+    .hero-quote {
+        font-size: 0.92rem;
+    }
+
+    .school-chatbot-toggle,
+    .school-chatbot-close-icon,
+    .school-chatbot-icon svg {
+        width: 4rem;
+        height: 4rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .brand img {
+        width: 44px;
+        height: 44px;
+    }
+
+    .brand-text strong {
+        font-size: 0.72rem;
+    }
+
+    .hero-actions {
+        margin: 1.25rem 0;
+    }
+
+    .button-primary {
+        font-size: 0.92rem;
+    }
+
+    .vision-banner-frame::before {
+        inset: 0.6rem;
+    }
+
+    .vision-banner-play {
+        width: 4.25rem;
+        height: 4.25rem;
+    }
+
+    .facility-card img,
+    .choose-card img {
+        height: 12.5rem;
+    }
+
+    .gallery-card-large,
+    .gallery-card-tall,
+    .gallery-card-wide,
+    .gallery-card-square {
+        min-height: 15rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .container {
+        width: min(100% - 0.5rem, 1120px);
+    }
+
+    .site-header .container {
+        width: min(100% - 0.35rem, 1320px);
+    }
+
+    .header-inner {
+        gap: 0.4rem;
+    }
+
+    .brand img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .brand-text strong {
+        font-size: 0.68rem;
+    }
+
+    .menu-toggle {
+        font-size: 1.3rem;
+    }
+
+    .hero-copy h1 {
+        font-size: 1.85rem;
+    }
+
+    .eyebrow {
+        font-size: 0.68rem;
+    }
+
+    .button-primary {
+        min-height: 44px;
+        padding: 0.72rem 1rem;
+    }
+
+    .school-chatbot-panel {
+        width: calc(100vw - 0.35rem);
+    }
+}
+
 .school-chatbot {
     position: fixed;
     right: 1.4rem;
