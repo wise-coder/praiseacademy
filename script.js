@@ -392,10 +392,18 @@ function setupContactForm() {
     const publicKey = emailJsConfig.publicKey;
 
     if (!window.emailjs || !serviceId || !templateId || !publicKey) {
-        if (notification) {
-            notification.textContent = "Email sending is not configured correctly right now. Please try again later.";
-            notification.className = "form-notification error";
-        }
+        contactForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            if (!submitButton || !contactForm.reportValidity()) {
+                return;
+            }
+
+            if (notification) {
+                notification.textContent = "Sorry, there was an error sending your message. Please try again later.";
+                notification.className = "form-notification error";
+            }
+        });
 
         return;
     }
