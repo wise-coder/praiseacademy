@@ -570,7 +570,7 @@ function setupSchoolChatbot() {
             </span>
         </button>
 
-        <section class="school-chatbot-panel" id="school-chatbot-panel" hidden aria-label="Praise Academy chatbot">
+        <section class="school-chatbot-panel" id="school-chatbot-panel" hidden aria-label="Praise Academy chatbot" style="width: min(24rem, calc(100vw - 2rem));">
             <div class="school-chatbot-header">
                 <div class="school-chatbot-title-wrap">
                     <span class="school-chatbot-mini-icon">${getChatbotIconMarkup()}</span>
