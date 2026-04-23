@@ -382,48 +382,44 @@ function setupContactForm() {
 
     const notification = document.getElementById("form-notification");
     const submitButton = contactForm.querySelector(".submit-btn");
-    const nextField = contactForm.querySelector('input[name="_next"]');
-
-    if (notification) {
-        const params = new URLSearchParams(window.location.search);
-
-        if (params.get("sent") === "1") {
-            notification.textContent = "Thank you! Your message has been sent to dan.sabiti@gmail.com.";
-            notification.className = "form-notification success";
-
-            const cleanUrl = `${window.location.pathname}${window.location.hash || "#contactus"}`;
-            window.history.replaceState({}, document.title, cleanUrl);
-        }
-    }
+    const subjectField = contactForm.querySelector('input[name="_subject"]');
 
     contactForm.addEventListener("submit", (event) => {
-        const submitButton = contactForm.querySelector(".submit-btn");
-        const notification = document.getElementById("form-notification");
+        event.preventDefault();
 
-        if (!submitButton) {
-            event.preventDefault();
+        if (!submitButton || !contactForm.reportValidity()) {
             return;
         }
 
+        const recipientEmail = contactForm.dataset.recipient || "dan.sabiti@gmail.com";
+        const subject = subjectField ? subjectField.value : "New Contact Inquiry from Praise Academy Website";
+        const name = contactForm.elements.name ? contactForm.elements.name.value.trim() : "";
+        const email = contactForm.elements.email ? contactForm.elements.email.value.trim() : "";
+        const message = contactForm.elements.message ? contactForm.elements.message.value.trim() : "";
+        const bodyLines = [
+            `Full Name: ${name}`,
+            `Email Address: ${email}`,
+            "",
+            "Message:",
+            message
+        ];
+        const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+
         if (notification) {
-            notification.className = "form-notification";
-            notification.textContent = "";
+            notification.innerHTML = `Your email app should open with this message addressed to <a href="mailto:${recipientEmail}">${recipientEmail}</a>.`;
+            notification.className = "form-notification success";
         }
 
         const originalButtonText = submitButton.textContent;
         submitButton.disabled = true;
-        submitButton.textContent = "Sending...";
+        submitButton.textContent = "Opening Email...";
 
-        if (nextField && window.location.protocol !== "file:") {
-            nextField.value = `${window.location.origin}${window.location.pathname}?sent=1#contactus`;
-        } else if (nextField) {
-            nextField.disabled = true;
-        }
+        window.location.href = mailtoLink;
 
         window.setTimeout(() => {
             submitButton.disabled = false;
             submitButton.textContent = originalButtonText;
-        }, 12000);
+        }, 3000);
     });
 }
 
