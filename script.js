@@ -385,8 +385,9 @@ function setupContactForm() {
 
         const submitButton = contactForm.querySelector(".submit-btn");
         const notification = document.getElementById("form-notification");
+        const recipientEmail = contactForm.dataset.recipient;
 
-        if (!submitButton || !notification) {
+        if (!submitButton || !notification || !recipientEmail) {
             return;
         }
 
@@ -395,36 +396,33 @@ function setupContactForm() {
         submitButton.textContent = "Sending...";
 
         const formData = new FormData(contactForm);
-        const payload = {
-            form_type: "corpflex-01",
-            data: {
-                name: formData.get("name"),
-                email: formData.get("email"),
-                message: formData.get("message"),
-                mailTo: "dan.sabiti@gmail.com",
-                subject: "New Contact Inquiry from Praise Academy Website"
-            },
-            test: true
-        };
+
+        if (window.location.protocol !== "file:") {
+            formData.set("_url", window.location.href);
+        }
 
         try {
-            const response = await fetch("https://kitech.rw/api/v1/mail", {
+            const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    Accept: "application/json"
                 },
-                body: JSON.stringify(payload)
+                body: formData
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to send message");
+            const result = await response.json();
+
+            if (!response.ok || (result.success !== true && result.success !== "true")) {
+                throw new Error(result.message || "Failed to send message");
             }
 
             notification.textContent = "Thank you! Your message has been sent.";
             notification.className = "form-notification success";
             contactForm.reset();
         } catch (error) {
-            notification.textContent = "Sorry, there was an error sending your message. Please try again later.";
+            const fallbackLink = `mailto:${recipientEmail}?subject=${encodeURIComponent("New Contact Inquiry from Praise Academy Website")}`;
+
+            notification.innerHTML = `Sorry, there was an error sending your message. Please email us directly at <a href="${fallbackLink}">${recipientEmail}</a>.`;
             notification.className = "form-notification error";
         } finally {
             submitButton.disabled = false;
@@ -433,7 +431,7 @@ function setupContactForm() {
             window.setTimeout(() => {
                 notification.className = "form-notification";
                 notification.textContent = "";
-            }, 5000);
+            }, 7000);
         }
     });
 }

@@ -212,7 +212,16 @@
                 </div>
 
                 <div class="contact-card-form reveal-right">
-                    <form id="contact-form" action="#" method="POST" class="contact-form">
+                    <form
+                        id="contact-form"
+                        action="https://formsubmit.co/info@praiseacademy.ac.rw"
+                        method="POST"
+                        class="contact-form"
+                        data-recipient="info@praiseacademy.ac.rw">
+                        <input type="hidden" name="_subject" value="New Contact Inquiry from Praise Academy Website">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="text" name="_honey" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
                         <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" name="name" required placeholder="Enter your full name">
