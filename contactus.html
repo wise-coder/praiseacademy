@@ -219,6 +219,10 @@
                         class="contact-form"
                         data-recipient="dan.sabiti@gmail.com">
                         <input type="hidden" name="_subject" value="New Contact Inquiry from Praise Academy Website">
+                        <input type="hidden" name="from_name" value="">
+                        <input type="hidden" name="reply_to" value="">
+                        <input type="hidden" name="subject" value="New Contact Inquiry from Praise Academy Website">
+                        <input type="hidden" name="to_email" value="dan.sabiti@gmail.com">
                         <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" name="name" required placeholder="Enter your full name">
@@ -294,7 +298,9 @@
         </div>
     </footer>
 
-    <script src="script.js?v=20260420-2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="emailjs-config.js"></script>
+    <script src="script.js?v=20260423-1"></script>
 </body>
 
 </html>

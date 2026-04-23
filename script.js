@@ -383,8 +383,28 @@ function setupContactForm() {
     const notification = document.getElementById("form-notification");
     const submitButton = contactForm.querySelector(".submit-btn");
     const subjectField = contactForm.querySelector('input[name="_subject"]');
+    const aliasNameField = contactForm.querySelector('input[name="from_name"]');
+    const aliasReplyToField = contactForm.querySelector('input[name="reply_to"]');
+    const aliasSubjectField = contactForm.querySelector('input[name="subject"]');
+    const emailJsConfig = window.EMAILJS_CONFIG || {};
+    const serviceId = emailJsConfig.serviceId;
+    const templateId = emailJsConfig.templateId;
+    const publicKey = emailJsConfig.publicKey;
 
-    contactForm.addEventListener("submit", (event) => {
+    if (!window.emailjs || !serviceId || !templateId || !publicKey) {
+        if (notification) {
+            notification.textContent = "Email sending is not configured correctly right now. Please try again later.";
+            notification.className = "form-notification error";
+        }
+
+        return;
+    }
+
+    window.emailjs.init({
+        publicKey
+    });
+
+    contactForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         if (!submitButton || !contactForm.reportValidity()) {
@@ -395,31 +415,46 @@ function setupContactForm() {
         const subject = subjectField ? subjectField.value : "New Contact Inquiry from Praise Academy Website";
         const name = contactForm.elements.name ? contactForm.elements.name.value.trim() : "";
         const email = contactForm.elements.email ? contactForm.elements.email.value.trim() : "";
-        const message = contactForm.elements.message ? contactForm.elements.message.value.trim() : "";
-        const bodyLines = [
-            `Full Name: ${name}`,
-            `Email Address: ${email}`,
-            "",
-            "Message:",
-            message
-        ];
-        const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+
+        if (aliasNameField) {
+            aliasNameField.value = name;
+        }
+
+        if (aliasReplyToField) {
+            aliasReplyToField.value = email;
+        }
+
+        if (aliasSubjectField) {
+            aliasSubjectField.value = subject;
+        }
 
         if (notification) {
-            notification.innerHTML = `Your email app should open with this message addressed to <a href="mailto:${recipientEmail}">${recipientEmail}</a>.`;
-            notification.className = "form-notification success";
+            notification.textContent = "";
+            notification.className = "form-notification";
         }
 
         const originalButtonText = submitButton.textContent;
         submitButton.disabled = true;
-        submitButton.textContent = "Opening Email...";
+        submitButton.textContent = "Sending...";
 
-        window.location.href = mailtoLink;
+        try {
+            await window.emailjs.sendForm(serviceId, templateId, contactForm);
 
-        window.setTimeout(() => {
+            if (notification) {
+                notification.textContent = `Thank you! Your message has been sent to ${recipientEmail}.`;
+                notification.className = "form-notification success";
+            }
+
+            contactForm.reset();
+        } catch (error) {
+            if (notification) {
+                notification.textContent = "Sorry, there was an error sending your message. Please try again later.";
+                notification.className = "form-notification error";
+            }
+        } finally {
             submitButton.disabled = false;
             submitButton.textContent = originalButtonText;
-        }, 3000);
+        }
     });
 }
 
