@@ -380,59 +380,50 @@ function setupContactForm() {
         return;
     }
 
-    contactForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
+    const notification = document.getElementById("form-notification");
+    const submitButton = contactForm.querySelector(".submit-btn");
+    const nextField = contactForm.querySelector('input[name="_next"]');
 
+    if (notification) {
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.get("sent") === "1") {
+            notification.textContent = "Thank you! Your message has been sent to dan.sabiti@gmail.com.";
+            notification.className = "form-notification success";
+
+            const cleanUrl = `${window.location.pathname}${window.location.hash || "#contactus"}`;
+            window.history.replaceState({}, document.title, cleanUrl);
+        }
+    }
+
+    contactForm.addEventListener("submit", (event) => {
         const submitButton = contactForm.querySelector(".submit-btn");
         const notification = document.getElementById("form-notification");
-        const recipientEmail = contactForm.dataset.recipient;
 
-        if (!submitButton || !notification || !recipientEmail) {
+        if (!submitButton) {
+            event.preventDefault();
             return;
+        }
+
+        if (notification) {
+            notification.className = "form-notification";
+            notification.textContent = "";
         }
 
         const originalButtonText = submitButton.textContent;
         submitButton.disabled = true;
         submitButton.textContent = "Sending...";
 
-        const formData = new FormData(contactForm);
-
-        if (window.location.protocol !== "file:") {
-            formData.set("_url", window.location.href);
+        if (nextField && window.location.protocol !== "file:") {
+            nextField.value = `${window.location.origin}${window.location.pathname}?sent=1#contactus`;
+        } else if (nextField) {
+            nextField.disabled = true;
         }
 
-        try {
-            const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`, {
-                method: "POST",
-                headers: {
-                    Accept: "application/json"
-                },
-                body: formData
-            });
-
-            const result = await response.json();
-
-            if (!response.ok || (result.success !== true && result.success !== "true")) {
-                throw new Error(result.message || "Failed to send message");
-            }
-
-            notification.textContent = "Thank you! Your message has been sent.";
-            notification.className = "form-notification success";
-            contactForm.reset();
-        } catch (error) {
-            const fallbackLink = `mailto:${recipientEmail}?subject=${encodeURIComponent("New Contact Inquiry from Praise Academy Website")}`;
-
-            notification.innerHTML = `Sorry, there was an error sending your message. Please email us directly at <a href="${fallbackLink}">${recipientEmail}</a>.`;
-            notification.className = "form-notification error";
-        } finally {
+        window.setTimeout(() => {
             submitButton.disabled = false;
             submitButton.textContent = originalButtonText;
-
-            window.setTimeout(() => {
-                notification.className = "form-notification";
-                notification.textContent = "";
-            }, 7000);
-        }
+        }, 12000);
     });
 }
 
