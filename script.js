@@ -382,35 +382,7 @@ function setupContactForm() {
 
     const notification = document.getElementById("form-notification");
     const submitButton = contactForm.querySelector(".submit-btn");
-    const subjectField = contactForm.querySelector('input[name="_subject"]');
-    const aliasNameField = contactForm.querySelector('input[name="from_name"]');
-    const aliasReplyToField = contactForm.querySelector('input[name="reply_to"]');
-    const aliasSubjectField = contactForm.querySelector('input[name="subject"]');
-    const emailJsConfig = window.EMAILJS_CONFIG || {};
-    const serviceId = emailJsConfig.serviceId;
-    const templateId = emailJsConfig.templateId;
-    const publicKey = emailJsConfig.publicKey;
-
-    if (!window.emailjs || !serviceId || !templateId || !publicKey) {
-        contactForm.addEventListener("submit", (event) => {
-            event.preventDefault();
-
-            if (!submitButton || !contactForm.reportValidity()) {
-                return;
-            }
-
-            if (notification) {
-                notification.textContent = "Sorry, there was an error sending your message. Please try again later.";
-                notification.className = "form-notification error";
-            }
-        });
-
-        return;
-    }
-
-    window.emailjs.init({
-        publicKey
-    });
+    const endpoint = contactForm.dataset.endpoint || "/api/contact";
 
     contactForm.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -419,22 +391,15 @@ function setupContactForm() {
             return;
         }
 
-        const recipientEmail = contactForm.dataset.recipient || "dan.sabiti@gmail.com";
-        const subject = subjectField ? subjectField.value : "New Contact Inquiry from Praise Academy Website";
+        const recipientEmail = contactForm.dataset.recipient || "praiseacademy2015@gmail.com";
+        const subjectField = contactForm.querySelector('input[name="subject"]');
         const name = contactForm.elements.name ? contactForm.elements.name.value.trim() : "";
         const email = contactForm.elements.email ? contactForm.elements.email.value.trim() : "";
-
-        if (aliasNameField) {
-            aliasNameField.value = name;
-        }
-
-        if (aliasReplyToField) {
-            aliasReplyToField.value = email;
-        }
-
-        if (aliasSubjectField) {
-            aliasSubjectField.value = subject;
-        }
+        const message = contactForm.elements.message ? contactForm.elements.message.value.trim() : "";
+        const subject = subjectField && subjectField.value
+            ? subjectField.value
+            : "New Contact Inquiry from Praise Academy Website";
+        const payload = buildContactSubmissionPayload(name, email, subject, message);
 
         if (notification) {
             notification.textContent = "";
@@ -446,7 +411,23 @@ function setupContactForm() {
         submitButton.textContent = "Sending...";
 
         try {
-            await window.emailjs.sendForm(serviceId, templateId, contactForm);
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    ...payload,
+                    to_email: recipientEmail
+                })
+            });
+
+            const responseData = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(responseData.error || "Unable to send contact message.");
+            }
 
             if (notification) {
                 notification.textContent = `Thank you! Your message has been sent to ${recipientEmail}.`;
@@ -456,7 +437,9 @@ function setupContactForm() {
             contactForm.reset();
         } catch (error) {
             if (notification) {
-                notification.textContent = "Sorry, there was an error sending your message. Please try again later.";
+                notification.textContent = error && error.message
+                    ? error.message
+                    : "Sorry, there was an error sending your message. Please try again later.";
                 notification.className = "form-notification error";
             }
         } finally {
@@ -478,6 +461,15 @@ function escapeHtml(value) {
     const div = document.createElement("div");
     div.textContent = value;
     return div.innerHTML;
+}
+
+function buildContactSubmissionPayload(name, email, subject, message) {
+    return {
+        name: name || "Not provided",
+        email: email || "Not provided",
+        subject: subject || "New Contact Inquiry from Praise Academy Website",
+        message: message || "No message provided."
+    };
 }
 
 function uniqueLinks(links) {
