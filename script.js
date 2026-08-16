@@ -45,7 +45,7 @@ const schoolAnswerRules = [
     },
     {
         keywords: ["leaders", "leadership", "administration", "school leaders", "staff"],
-        answer: "The school administration shown on the website includes founder Mutoni Monique, Pastor Georges Karake for spiritual leadership, Head Master Sabiti Dan, Director of Studies Ndungutse Bangirana Steven, and Director of Discipline Uwimana David.",
+        answer: "The school administration shown on the website includes founder Mutoni Monique, Karake George as Principal & Spiritual Leader, Head Master Sabiti Dan, Director of Studies Ndungutse Bangirana Steven, and Director of Discipline Uwimana David.",
         links: [
             { href: "staff.html", label: "Staff Page" }
         ]
